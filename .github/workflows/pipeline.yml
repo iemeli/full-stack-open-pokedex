@@ -33,3 +33,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: 'ancient-forest-87295'
           heroku_email: eemeli.paalimaki.work@protonmail.com
+          healthcheck: 'https://ancient-forest-87295.herokuapp.com/health'
