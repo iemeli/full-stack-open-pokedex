@@ -64,7 +64,7 @@ jobs:
         run: echo "$COMMITS"
       - name: commit messages
         env:
-          COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
-        if: ${{contains(COMMIT_MESSAGES, "est")}}
+          COMMIT_MESSAGES: toJson(github.event.commits.*.message)
+        if: contains(github.event.commits.*.message, 'est')
         run: echo "$COMMIT_MESSAGES"
         run: echo "toimii"
