@@ -65,5 +65,5 @@ jobs:
       - name: commit messages
         env:
           COMMIT_MESSAGES: toJson(github.event.commits.*.message)
-        if: contains(github.event.commits.*.message, 'est')
+        if: contains(join(github.event.commits.*.message), 'est')
         run: echo "jee!"
