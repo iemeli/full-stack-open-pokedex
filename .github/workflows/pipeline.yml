@@ -24,6 +24,12 @@ jobs:
         run: npm run eslint
       - name: build
         run: npm run build
+      - name: Build fail notification
+        uses: rjstone/discord-webhook-notify@v1
+        if: !success()
+        with:
+          details: Build did not succeed.
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: test
         run: npm test
       - name: e2e tests
@@ -41,6 +47,16 @@ jobs:
           heroku_email: eemeli.paalimaki.work@protonmail.com
           healthcheck: 'https://ancient-forest-87295.herokuapp.com/health'
           rollbackonhealthcheckfailed: true
+      - name: New version deploy notification
+        uses: rjstone/discord-webhook-notify@v1
+        if: |
+          success() &&
+          github.event_name == 'push' &&
+          !contains(toJSON(github.event.commits.*.message), '#skip')
+        with:
+          severity: info
+          details: A new version deployed!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
