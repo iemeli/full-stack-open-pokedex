@@ -26,7 +26,7 @@ jobs:
         run: npm run build
       - name: Build fail notification
         uses: rjstone/discord-webhook-notify@v1
-        if: !success()
+        if: ${{ !success() }}
         with:
           details: Build did not succeed.
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
